@@ -7,25 +7,31 @@ all: build
 MIRROR?=ftp.jp.freebsd.org
 ARCH?=amd64
 VERSION?=10.1-RELEASE
-WORKDIR?=${PWD}/.tmp
-DISTDIR?=${WORKDIR}/dist
 
-workdir: ${WORKDIR} ${DISTDIR}
-${WORKDIR}:
+WRKDIR?=${PWD}/.tmp
+DSTDIR?=${WRKDIR}/dist
+BASE?=${DSTDIR}
+PKG_STATIC?=/usr/local/sbin/pkg-static
+PACKAGESDIR?=packages
+
+workdir: ${WRKDIR} ${DSTDIR}
+${WRKDIR}:
 	@mkdir $@
-${DISTDIR}:
+${DSTDIR}:
 	@mkdir $@
 
-download: workdir ${WORKDIR}/.download_done
-${WORKDIR}/.download_done:
-	@fetch -o ${DISTDIR}/base.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/base.txz
-	@fetch -o ${DISTDIR}/kernel.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/kernel.txz
+download: workdir ${WRKDIR}/.download_done
+${WRKDIR}/.download_done:
+	@fetch -o ${DSTDIR}/base.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/base.txz
+	@fetch -o ${DSTDIR}/kernel.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/kernel.txz
 	@touch $@
 
-build: download ${WORKDIR}/.build_done
-${WORKDIR}/.build_done:
-	@make -C mfsbsd BASE=${WORKDIR}/dist PKG_STATIC=/usr/local/sbin/pkg-static iso
+build: download ${WRKDIR}/.build_done
+${WRKDIR}/.build_done:
+	@make -C mfsbsd iso BASE=${BASE} WRKDIR=${WRKDIR} PACKAGESDIR=${PACKAGESDIR} PKG_STATIC=${PKG_STATIC}
 	@touch $@
 
 clean:
-	@rm -fr ${WORKDIR}
+	@chflags -R noschg ${WRKDIR}
+	@rm -fr ${WRKDIR}
+	@make -C mfsbsd clean
