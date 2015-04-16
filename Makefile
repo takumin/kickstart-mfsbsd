@@ -2,7 +2,7 @@
 
 .POSIX:
 
-all: build
+all: create
 
 .PHONY: all workdir download pkgng custom create clean
 
