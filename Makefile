@@ -90,5 +90,5 @@ ${WRKDIR}/.create_done:
 
 clean:
 	@sudo chflags -R noschg ${WRKDIR}
+	@sudo make -C mfsbsd clean WRKDIR=${WRKDIR}
 	@sudo rm -fr ${WRKDIR}
-	@sudo make -C mfsbsd clean
