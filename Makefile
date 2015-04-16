@@ -14,26 +14,27 @@ TIMEZONE?=	Asia/Tokyo
 NTPSERVER?=	ntp.jst.mfeed.ad.jp
 
 WRKDIR?=	${.CURDIR}/.tmp
-DSTDIR?=	${WRKDIR}/dist
+DSTDIR?=	${WRKDIR}/base/${RELEASE}-${ARCH}
 PKGDIR?=	${.CURDIR}/packages
 PKG_ABI:=	freebsd:${RELEASE:C/([0-9]{1,2}).*/\1/}:x86:${ARCH:C/.*([0-9]{2}.*)/\1/}
 
 workdir: ${WRKDIR} ${DSTDIR}
 ${WRKDIR}:
-	@mkdir $@
+	@mkdir -p $@
 ${DSTDIR}:
-	@mkdir $@
+	@mkdir -p $@
 
-download: workdir ${WRKDIR}/.download_done
-${WRKDIR}/.download_done:
+download: workdir ${DSTDIR}/base.txz ${DSTDIR}/kernel.txz ${DSTDIR}/pkg.txz
+${DSTDIR}/base.txz:
 	@fetch -o ${DSTDIR}/base.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${RELEASE}/base.txz
+${DSTDIR}/kernel.txz:
 	@fetch -o ${DSTDIR}/kernel.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${RELEASE}/kernel.txz
-	@fetch -o ${WRKDIR}/pkg.txz http://pkg.freebsd.org/${PKG_ABI}/latest/Latest/pkg.txz
-	@touch $@
+${DSTDIR}/pkg.txz:
+	@fetch -o ${DSTDIR}/pkg.txz http://pkg.freebsd.org/${PKG_ABI}/latest/Latest/pkg.txz
 
-pkgng: download ${WRKDIR}/.pkgng_done
-${WRKDIR}/.pkgng_done:
-	@tar -xf ${WRKDIR}/pkg.txz -C ${WRKDIR} --include "*pkg-static"
+pkgng: download ${WRKDIR}/usr/local/sbin/pkg-static
+${WRKDIR}/usr/local/sbin/pkg-static:
+	@tar -xf ${DSTDIR}/pkg.txz -C ${WRKDIR} --include "*pkg-static"
 	@touch $@
 
 custom: pkgng ${WRKDIR}/.custom_done
@@ -76,9 +77,9 @@ ${WRKDIR}/.custom_done:
 	@echo 'ntpdate_hosts="${NTPSERVER}"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
 	# sshd_config
 	@mkdir -p ${.CURDIR}/mfsbsd/customfiles/etc/ssh
-	@echo 'PermitRootLogin without-password' >> ${.CURDIR}/mfsbsd/customfiles/etc/ssh/sshd_config
+	@echo 'PermitRootLogin without-password' > ${.CURDIR}/mfsbsd/customfiles/etc/ssh/sshd_config
 	# timezone
-	@cp -a /usr/share/zoneinfo/${TIMEZONE} ${.CURDIR}/mfsbsd/customfiles/etc/localtime
+	@cp -af /usr/share/zoneinfo/${TIMEZONE} ${.CURDIR}/mfsbsd/customfiles/etc/localtime
 	@touch ${.CURDIR}/mfsbsd/customfiles/etc/wall_cmos_clock
 	@chmod 0444 ${.CURDIR}/mfsbsd/customfiles/etc/wall_cmos_clock
 	@touch $@
@@ -93,3 +94,4 @@ ${WRKDIR}/.create_done:
 
 clean:
 	@sudo make -C mfsbsd clean WRKDIR=${WRKDIR}
+	@rm -fr ${WRKDIR}/usr
