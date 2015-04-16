@@ -39,56 +39,56 @@ ${WRKDIR}/.pkgng_done:
 custom: pkgng ${WRKDIR}/.custom_done
 ${WRKDIR}/.custom_done:
 	# authorized_keys
-	@cp ${HOME}/.ssh/authorized_keys ${WRKDIR}/mfsbsd/conf/authorized_keys
+	@cp ${HOME}/.ssh/authorized_keys ${.CURDIR}/mfsbsd/conf/authorized_keys
 	# hosts
-	@echo '127.0.0.1 localhost' > ${WRKDIR}/mfsbsd/conf/hosts
-	@echo '::1       localhost' >> ${WRKDIR}/mfsbsd/conf/hosts
+	@echo '127.0.0.1 localhost' > ${.CURDIR}/mfsbsd/conf/hosts
+	@echo '::1       localhost' >> ${.CURDIR}/mfsbsd/conf/hosts
 	# loader.conf
-	@echo 'autoboot_delay="-1"' > ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'beastie_disable="YES"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'mfsbsd.autodhcp="YES"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'mfsbsd.hostname="mfsbsd"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'mfsbsd.rootpw="mfsbsd"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'geom_uzip_load="YES"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'tmpfs_load="YES"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'mfs_load="YES"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'mfs_type="mfs_root"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'mfs_name="/mfsroot"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'ahci_load="YES"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'vfs.root.mountfrom="ufs:/dev/md0"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
-	@echo 'mfsbsd.autodhcp="YES"' >> ${WRKDIR}/mfsbsd/conf/loader.conf
+	@echo 'autoboot_delay="-1"' > ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'beastie_disable="YES"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'mfsbsd.autodhcp="YES"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'mfsbsd.hostname="mfsbsd"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'mfsbsd.rootpw="mfsbsd"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'geom_uzip_load="YES"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'tmpfs_load="YES"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'mfs_load="YES"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'mfs_type="mfs_root"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'mfs_name="/mfsroot"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'ahci_load="YES"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'vfs.root.mountfrom="ufs:/dev/md0"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
+	@echo 'mfsbsd.autodhcp="YES"' >> ${.CURDIR}/mfsbsd/conf/loader.conf
 	# rc.conf
-	@echo 'ifconfig_DEFAULT="SYNCDHCP"' > ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'tcp_drop_synfin="YES"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'icmp_drop_redirect="YES"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'sshd_enable="YES"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'sendmail_enable="NO"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'sendmail_cert_create="NO"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'sendmail_submit_enable="NO"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'sendmail_outbound_enable="NO"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'sendmail_msp_queue_enable="NO"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'cron_enable="NO"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'local_enable="YES"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'keymap="${KEYMAP}"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'keyrate="fast"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'keybell="off"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'ntpdate_enable="YES"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
-	@echo 'ntpdate_hosts="${NTPSERVER}"' >> ${WRKDIR}/mfsbsd/conf/rc.conf
+	@echo 'ifconfig_DEFAULT="SYNCDHCP"' > ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'tcp_drop_synfin="YES"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'icmp_drop_redirect="YES"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'sshd_enable="YES"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'sendmail_enable="NO"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'sendmail_cert_create="NO"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'sendmail_submit_enable="NO"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'sendmail_outbound_enable="NO"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'sendmail_msp_queue_enable="NO"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'cron_enable="NO"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'local_enable="YES"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'keymap="${KEYMAP}"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'keyrate="fast"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'keybell="off"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'ntpdate_enable="YES"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
+	@echo 'ntpdate_hosts="${NTPSERVER}"' >> ${.CURDIR}/mfsbsd/conf/rc.conf
 	# sshd_config
-	@mkdir -p ${WRKDIR}/mfsbsd/customfiles/etc/ssh
-	@echo 'PermitRootLogin without-password' >> ${WRKDIR}/mfsbsd/customfiles/etc/ssh/sshd_config
+	@mkdir -p ${.CURDIR}/mfsbsd/customfiles/etc/ssh
+	@echo 'PermitRootLogin without-password' >> ${.CURDIR}/mfsbsd/customfiles/etc/ssh/sshd_config
 	# timezone
-	@cp -a /usr/share/zoneinfo/${TIMEZONE} ${WRKDIR}/mfsbsd/customfiles/etc/localtime
-	@touch ${WRKDIR}/mfsbsd/customfiles/etc/wall_cmos_clock
-	@chmod 0444 ${WRKDIR}/mfsbsd/customfiles/etc/wall_cmos_clock
+	@cp -a /usr/share/zoneinfo/${TIMEZONE} ${.CURDIR}/mfsbsd/customfiles/etc/localtime
+	@touch ${.CURDIR}/mfsbsd/customfiles/etc/wall_cmos_clock
+	@chmod 0444 ${.CURDIR}/mfsbsd/customfiles/etc/wall_cmos_clock
 	@touch $@
 
-build: custom ${WRKDIR}/.build_done
-${WRKDIR}/.build_done:
-	@make -C mfsbsd iso BASE=${DSTDIR} WRKDIR=${WRKDIR} PACKAGESDIR=${PKGDIR} PKG_STATIC=${WRKDIR}/usr/local/sbin/pkg-static
+create: custom ${WRKDIR}/.create_done
+${WRKDIR}/.create_done:
+	@sudo make -C mfsbsd iso BASE=${DSTDIR} WRKDIR=${WRKDIR} PACKAGESDIR=${PKGDIR} PKG_STATIC=${WRKDIR}/usr/local/sbin/pkg-static
 	@touch $@
 
 clean:
-	@chflags -R noschg ${WRKDIR}
-	@rm -fr ${WRKDIR}
-	@make -C mfsbsd clean
+	@sudo chflags -R noschg ${WRKDIR}
+	@sudo rm -fr ${WRKDIR}
+	@sudo make -C mfsbsd clean
