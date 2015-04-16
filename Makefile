@@ -8,7 +8,7 @@ all: create
 
 MIRROR?=	ftp.jp.freebsd.org
 ARCH?=		amd64
-VERSION?=	10.1-RELEASE
+RELEASE?=	10.1-RELEASE
 KEYMAP?=	jp.capsctrl.kbd
 TIMEZONE?=	Asia/Tokyo
 NTPSERVER?=	ntp.jst.mfeed.ad.jp
@@ -16,7 +16,7 @@ NTPSERVER?=	ntp.jst.mfeed.ad.jp
 WRKDIR?=	${.CURDIR}/.tmp
 DSTDIR?=	${WRKDIR}/dist
 PKGDIR?=	${.CURDIR}/packages
-PKG_ABI:=	freebsd:${VERSION:C/([0-9]{1,2}).*/\1/}:x86:${ARCH:C/.*([0-9]{2}.*)/\1/}
+PKG_ABI:=	freebsd:${RELEASE:C/([0-9]{1,2}).*/\1/}:x86:${ARCH:C/.*([0-9]{2}.*)/\1/}
 
 workdir: ${WRKDIR} ${DSTDIR}
 ${WRKDIR}:
@@ -26,8 +26,8 @@ ${DSTDIR}:
 
 download: workdir ${WRKDIR}/.download_done
 ${WRKDIR}/.download_done:
-	@fetch -o ${DSTDIR}/base.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/base.txz
-	@fetch -o ${DSTDIR}/kernel.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/kernel.txz
+	@fetch -o ${DSTDIR}/base.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${RELEASE}/base.txz
+	@fetch -o ${DSTDIR}/kernel.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${RELEASE}/kernel.txz
 	@fetch -o ${WRKDIR}/pkg.txz http://pkg.freebsd.org/${PKG_ABI}/latest/Latest/pkg.txz
 	@touch $@
 
@@ -85,10 +85,10 @@ ${WRKDIR}/.custom_done:
 
 create: custom ${WRKDIR}/.create_done
 ${WRKDIR}/.create_done:
-	@sudo make -C mfsbsd iso RELEASE=${VERSION} ARCH=${ARCH} \
+	@sudo make -C mfsbsd iso RELEASE=${RELEASE} ARCH=${ARCH} \
 		BASE=${DSTDIR} WRKDIR=${WRKDIR} PACKAGESDIR=${PKGDIR} \
 		PKG_STATIC=${WRKDIR}/usr/local/sbin/pkg-static \
-		ISOIMAGE=../mfsBSD-${VERSION}-${ARCH}.iso
+		ISOIMAGE=../mfsBSD-${RELEASE}-${ARCH}.iso
 	@touch $@
 
 clean:
