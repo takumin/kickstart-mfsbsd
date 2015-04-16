@@ -91,6 +91,4 @@ ${WRKDIR}/.create_done:
 	@touch $@
 
 clean:
-	@sudo chflags -R noschg ${WRKDIR}
 	@sudo make -C mfsbsd clean WRKDIR=${WRKDIR}
-	@sudo rm -fr ${WRKDIR}
