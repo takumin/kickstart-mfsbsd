@@ -4,7 +4,7 @@
 
 all: build
 
-.PHONY: all workdir download custom build clean
+.PHONY: all workdir download pkgng custom build clean
 
 MIRROR?=	ftp.jp.freebsd.org
 ARCH?=		amd64
@@ -83,7 +83,7 @@ ${WRKDIR}/.custom_done:
 	@chmod 0444 ${WRKDIR}/mfsbsd/customfiles/etc/wall_cmos_clock
 	@touch $@
 
-build: download ${WRKDIR}/.build_done
+build: custom ${WRKDIR}/.build_done
 ${WRKDIR}/.build_done:
 	@make -C mfsbsd iso BASE=${DSTDIR} WRKDIR=${WRKDIR} PACKAGESDIR=${PKGDIR} PKG_STATIC=${WRKDIR}/usr/local/sbin/pkg-static
 	@touch $@
