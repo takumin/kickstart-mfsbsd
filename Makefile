@@ -4,7 +4,7 @@
 
 all: build
 
-.PHONY: all workdir download pkgng custom build clean
+.PHONY: all workdir download pkgng custom create clean
 
 MIRROR?=	ftp.jp.freebsd.org
 ARCH?=		amd64
