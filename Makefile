@@ -85,8 +85,9 @@ ${WRKDIR}/.custom_done:
 
 create: custom ${WRKDIR}/.create_done
 ${WRKDIR}/.create_done:
-	@sudo make -C mfsbsd iso BASE=${DSTDIR} WRKDIR=${WRKDIR} \
-		PACKAGESDIR=${PKGDIR} PKG_STATIC=${WRKDIR}/usr/local/sbin/pkg-static \
+	@sudo make -C mfsbsd iso RELEASE=${VERSION} ARCH=${ARCH} \
+		BASE=${DSTDIR} WRKDIR=${WRKDIR} PACKAGESDIR=${PKGDIR} \
+		PKG_STATIC=${WRKDIR}/usr/local/sbin/pkg-static \
 		ISOIMAGE=../mfsBSD-${VERSION}-${ARCH}.iso
 	@touch $@
 
