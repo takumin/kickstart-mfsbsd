@@ -13,11 +13,10 @@ KEYMAP?=	jp.capsctrl.kbd
 TIMEZONE?=	Asia/Tokyo
 NTPSERVER?=	ntp.jst.mfeed.ad.jp
 
-WRKDIR?=	${PWD}/.tmp
+WRKDIR?=	${.CURDIR}/.tmp
 DSTDIR?=	${WRKDIR}/dist
-BASE?=		${DSTDIR}
-PKG_STATIC?=	/usr/local/sbin/pkg-static
-PACKAGESDIR?=	packages
+PKGDIR?=	${.CURDIR}/packages
+PKG_ABI:=	freebsd:${VERSION:C/([0-9]{1,2}).*/\1/}:x86:${ARCH:C/.*([0-9]{2}.*)/\1/}
 
 workdir: ${WRKDIR} ${DSTDIR}
 ${WRKDIR}:
@@ -29,9 +28,15 @@ download: workdir ${WRKDIR}/.download_done
 ${WRKDIR}/.download_done:
 	@fetch -o ${DSTDIR}/base.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/base.txz
 	@fetch -o ${DSTDIR}/kernel.txz http://${MIRROR}/pub/FreeBSD/releases/${ARCH}/${VERSION}/kernel.txz
+	@fetch -o ${WRKDIR}/pkg.txz http://pkg.freebsd.org/${PKG_ABI}/latest/Latest/pkg.txz
 	@touch $@
 
-custom: download ${WRKDIR}/.custom_done
+pkgng: download ${WRKDIR}/.pkgng_done
+${WRKDIR}/.pkgng_done:
+	@tar -xf ${WRKDIR}/pkg.txz -C ${WRKDIR} --include "*pkg-static"
+	@touch $@
+
+custom: pkgng ${WRKDIR}/.custom_done
 ${WRKDIR}/.custom_done:
 	# authorized_keys
 	@cp ${HOME}/.ssh/authorized_keys ${WRKDIR}/mfsbsd/conf/authorized_keys
@@ -80,7 +85,7 @@ ${WRKDIR}/.custom_done:
 
 build: download ${WRKDIR}/.build_done
 ${WRKDIR}/.build_done:
-	@make -C mfsbsd iso BASE=${BASE} WRKDIR=${WRKDIR} PACKAGESDIR=${PACKAGESDIR} PKG_STATIC=${PKG_STATIC}
+	@make -C mfsbsd iso BASE=${DSTDIR} WRKDIR=${WRKDIR} PACKAGESDIR=${PKGDIR} PKG_STATIC=${WRKDIR}/usr/local/sbin/pkg-static
 	@touch $@
 
 clean:
